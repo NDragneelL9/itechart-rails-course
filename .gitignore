@@ -14,6 +14,7 @@
 !/tmp/.keep
 
 # Ignore uploaded files in development
+.vscode
 /storage/*
 !/storage/.keep
 
