@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2021_12_03_132431) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_user_personalities_on_name", unique: true
     t.index ["user_id"], name: "index_user_personalities_on_user_id"
   end
 
