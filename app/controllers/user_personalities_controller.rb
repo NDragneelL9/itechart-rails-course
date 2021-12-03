@@ -1,6 +1,7 @@
 class UserPersonalitiesController < ApplicationController
 
   before_action :set_personality, only: [:show, :edit, :update, :destroy]
+  before_action :require_same_user, only: [:show, :edit, :update, :destroy]
 
   def new
     @personality = UserPersonality.new
@@ -10,6 +11,8 @@ class UserPersonalitiesController < ApplicationController
     @personality = UserPersonality.new(personality_params)
     @personality.user_id = current_user.id
     if @personality.save
+      # FIXME:
+      # flash notice doesnt work
       flash[:notice] = "Personality was created successfully"
       redirect_to @personality
     else
@@ -49,6 +52,15 @@ class UserPersonalitiesController < ApplicationController
 
   def personality_params
     params.require(:user_personality).permit(:name)
+  end
+
+  def require_same_user
+    if current_user != @personality.user
+      # FIXME:
+      # flash alert doesnt work
+      flash[:alert] = "You can't perfotm actions with this article"
+      redirect_to user_personalities_path
+    end
   end
 
 end
