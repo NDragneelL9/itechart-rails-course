@@ -1,0 +1,2 @@
+class UserPersonalitiesController < ApplicationController
+end
