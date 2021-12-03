@@ -1,0 +1,12 @@
+<div class="container center">
+  <h1><%= @personality.name %></h1>
+  <%= link_to edit_user_personality_path(@personality), class: "waves-effect waves-light btn light-green darken-2" do %>
+    <i class="material-icons left">edit</i>Edit
+  <% end %>
+  <%= link_to user_personality_path(@personality), 
+      class: "waves-effect waves-light btn light-green darken-2", 
+      method: :delete, 
+      data: {confirm: "Are you sure?"} do %>
+    <i class="material-icons left">delete</i>Delete
+  <% end %>
+</div>

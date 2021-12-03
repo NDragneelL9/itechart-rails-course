@@ -1,2 +1,6 @@
-<h1> home page <h1>
-<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus eaque inventore natus, corrupti ex quibusdam distinctio voluptatum, ad sint quaerat facere non accusamus ratione quod numquam temporibus dolore, labore voluptate?</p>
+<div class="container center">
+  <h1>Welcome <%= current_user.email %></h1>
+  <%= link_to 'List of all personalities', user_personalities_path, class: "waves-effect waves-light btn light-green darken-2" %>
+  <%= link_to 'Create personality', new_user_personality_path, class: "waves-effect waves-light btn light-green darken-2" %>
+  <h1>Here will be list of withdrawals and credits for default personality</h1>
+</div>
