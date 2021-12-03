@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2021_12_03_132431) do
   enable_extension "plpgsql"
 
   create_table "user_personalities", force: :cascade do |t|
-    t.string "name", default: "user", null: false
+    t.string "name", default: "", null: false
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
