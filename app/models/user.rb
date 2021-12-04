@@ -7,10 +7,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  private 
+  private
 
   def create_default_personality
-    @personality = UserPersonality.new(name: "Myself", user_id: self.id)
+    @personality = UserPersonality.new(name: 'Myself', user_id: id)
     @personality.save
   end
 end
