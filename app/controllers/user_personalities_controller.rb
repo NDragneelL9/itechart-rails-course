@@ -12,7 +12,7 @@ class UserPersonalitiesController < ApplicationController
     @personality.user_id = current_user.id
     if @personality.save
       # FIXME: flash notice doesnt work
-      flash[:notice] = 'Personality was created successfully'
+      # flash[:notice] = 'Personality was created successfully'
       redirect_to @personality
     else
       render 'new'
@@ -29,7 +29,8 @@ class UserPersonalitiesController < ApplicationController
 
   def update
     if @personality.update(personality_params)
-      flash[:notice] = 'Personality was updated successfully'
+      # FIXME: flash notice doesnt work
+      # flash[:notice] = 'Personality was updated successfully'
       redirect_to @personality
     else
       render 'edit'
