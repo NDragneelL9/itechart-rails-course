@@ -50,12 +50,12 @@ RSpec.describe 'UserPersonalities', type: :request do
     it 'update userpersonality' do
       user = User.first
       personality = UserPersonality.create(name: 'GrandPa', user: user)
-      newName = 'NewPerson'
-      patch user_personality_path(personality), params: { user_personality: { name: newName } }
+      new_name = 'NewPerson'
+      patch user_personality_path(personality), params: { user_personality: { name: new_name } }
       expect(response).to have_http_status(302)
       follow_redirect!
 
-      expect(response.body).to include newName
+      expect(response.body).to include new_name
       expect(response).to have_http_status(200)
     end
 
@@ -67,7 +67,8 @@ RSpec.describe 'UserPersonalities', type: :request do
       expect(response).to have_http_status(302)
       follow_redirect!
 
-      expect(response.body).to_not include 'GrandPa'
+      expect(response.body).to     include personality2.name
+      expect(response.body).to_not include personality1.name
       expect(response).to have_http_status(200)
     end
   end
