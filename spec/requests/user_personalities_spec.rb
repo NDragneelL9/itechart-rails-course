@@ -1,8 +1,9 @@
 require 'rails_helper'
-
+# rubocop:disable Metrics/BlockLength
 RSpec.describe 'UserPersonalities', type: :request do
+  # rubocop:enable Metrics/BlockLength
   before do
-    user = User.create(email: "test@test.com", password: "password")
+    user = User.create(email: 'test@test.com', password: 'password')
     sign_in(user)
   end
 
@@ -19,7 +20,10 @@ RSpec.describe 'UserPersonalities', type: :request do
 
     it 'should show view show template' do
       # FIXME: redirects to user_personalities_path instead of render :show template
-      personality = UserPersonality.create!(name: "GrandPa", user: User.create(email: "test@test.com", password: "password"))
+      personality = UserPersonality.create!(name: 'GrandPa',
+                                            user: User.create(
+                                              email: 'test@test.com', password: 'password'
+                                            ))
       get user_personality_path(personality.id)
 
       # follow_redirect!
@@ -33,9 +37,8 @@ RSpec.describe 'UserPersonalities', type: :request do
       get new_user_personality_path
       expect(response).to have_http_status(200)
 
-      post user_personalities_path, params: { user_personality: { name: "GrandPa" } }
+      post user_personalities_path, params: { user_personality: { name: 'GrandPa' } }
       expect(response).to have_http_status(302)
     end
   end
-
 end
