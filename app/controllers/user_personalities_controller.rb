@@ -44,7 +44,7 @@ class UserPersonalitiesController < ApplicationController
 
   private
 
-  def set_personality    
+  def set_personality
     @personality = UserPersonality.find(params[:id])
   end
 

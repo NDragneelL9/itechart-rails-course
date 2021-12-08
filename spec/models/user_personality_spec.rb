@@ -39,7 +39,7 @@ RSpec.describe UserPersonality, type: :model do
 
     it 'ensures last user personality remains' do
       destroy_action = subject.user.user_personalities.last.destroy
-      expect(destroy_action).to eq(false)
+      expect(destroy_action).to eq(nil)
     end
   end
 end
