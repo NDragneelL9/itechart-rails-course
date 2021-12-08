@@ -9,6 +9,6 @@ class UserPersonality < ApplicationRecord
   private 
 
   def ensure_one_personality_remains
-    throw(:abort) if user.user_personalities.count == 1
+    raise ActiveRecord::Rollback if user.user_personalities.count == 1
   end
 end
