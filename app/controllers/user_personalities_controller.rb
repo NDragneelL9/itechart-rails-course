@@ -2,7 +2,7 @@
 class UserPersonalitiesController < ApplicationController
   before_action :set_personality, only: %i[show edit update destroy]
   before_action :require_same_user, only: %i[show edit update destroy]
-
+  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
   def new
     @personality = UserPersonality.new
   end
@@ -44,7 +44,7 @@ class UserPersonalitiesController < ApplicationController
 
   private
 
-  def set_personality
+  def set_personality    
     @personality = UserPersonality.find(params[:id])
   end
 
@@ -56,7 +56,11 @@ class UserPersonalitiesController < ApplicationController
     return unless current_user != @personality.user
 
     # FIXME: flash alert doesnt work
-    flash[:alert] = "You can't perfotm actions with this article"
+    # flash[:alert] = "You can't perfotm actions with this article"
+    redirect_to user_personalities_path
+  end
+
+  def record_not_found
     redirect_to user_personalities_path
   end
 end
