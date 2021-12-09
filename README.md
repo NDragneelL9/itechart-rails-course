@@ -1,5 +1,5 @@
 # README
-
+## Timofey Frolov
 ## ItechArt-rails-course app
 
 ## This app is created for learning and training purposes

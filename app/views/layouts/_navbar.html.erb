@@ -3,8 +3,6 @@
     <%= link_to 'Financial accounting', root_path, class: "brand-logo" %></li>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <li><%= link_to 'Placeholder1', root_path %></li>
-      <li><%= link_to 'Placeholder2', root_path %></li>
-      <li><%= link_to 'Placeholder3', root_path %></li>
       <% if user_signed_in? %>
       <li><%= link_to 'Sign out', destroy_user_session_path, method: :delete%></li>
       <% end %>
