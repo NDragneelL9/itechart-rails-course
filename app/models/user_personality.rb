@@ -1,5 +1,7 @@
 class UserPersonality < ApplicationRecord
   belongs_to :user
+  has_many :user_personality_categories
+  has_many :categories, through: :user_personality_categories
   before_destroy :ensure_one_personality_remains
   validates :name, presence: true,
                    length: { minimum: 3, maximum: 14 },
