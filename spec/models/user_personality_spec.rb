@@ -36,7 +36,7 @@ RSpec.describe UserPersonality, type: :model do
       subject.user = nil
       expect(subject).to_not be_valid
     end
-
+    # FIXME: change test due to changes of methods
     it 'ensures last user personality remains' do
       destroy_action = subject.user.user_personalities.last.destroy
       expect(destroy_action).to eq(nil)

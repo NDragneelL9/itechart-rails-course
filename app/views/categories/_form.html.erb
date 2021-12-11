@@ -1,0 +1,20 @@
+<div class="valign-wrapper row login-form">
+  <div class="col card hoverable s6 offset-s3">
+    <div class="card-content">
+      <span class="card-title center"><%= @category.id.nil? ? 'Create category' : 'Update category' %></span>
+      <div class="divider"></div>
+      <%= render 'shared/error_messages', obj: @category %>
+      <%= form_for [current_personality, @category] do |f| %>
+        <div class="form-inputs row">
+          <div class="input-field col s12">
+            <%= f.text_field :name, required: true, autofocus: true, placeholder: "Food" %>
+            <%= f.label :name %>
+          </div>
+        </div>
+        <div class="form-actions center">
+          <%= f.submit(@category.new_record? ? "Create" : "Update", class: "btn waves-effect white-text light-green darken-2") %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

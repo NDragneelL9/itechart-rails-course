@@ -1,16 +1,26 @@
 <div class="container center">
-  <h1><%= @personality.name %></h1>
-  <%= link_to edit_user_personality_path(@personality), class: "waves-effect waves-light btn light-green darken-2" do %>
-    <i class="material-icons left">edit</i>Edit
+  <div class="row">
+    <div class="col s6 offset-s3">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title"><%= @personality.name %></span>
+        </div>
+        <div class="card-action">
+          <%= link_to edit_user_personality_path(@personality), class: "waves-effect waves-light btn light-green darken-2" do %>
+            <i class="material-icons left">edit</i>Edit
+          <% end %>
+          <%= link_to user_personality_path(@personality), 
+              class: "waves-effect waves-light btn light-green darken-2", 
+              method: :delete, 
+              data: {confirm: "Are you sure?"} do %>
+            <i class="material-icons left">delete</i>Delete
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+   <%= link_to new_user_personality_category_path(@personality), class: "waves-effect waves-light btn light-green darken-2" do %>
+    <i class="material-icons left">add</i>Create category
   <% end %>
-  <%= link_to user_personality_path(@personality), 
-      class: "waves-effect waves-light btn light-green darken-2", 
-      method: :delete, 
-      data: {confirm: "Are you sure?"} do %>
-    <i class="material-icons left">delete</i>Delete
-  <% end %>
-  <%# TODO: 
-      Add list of operations for @personality
-   %>
-  <h1>Here will be list of withdrawals and credits for default personality</h1>
+  <%= render 'categories/category' %>
 </div>
