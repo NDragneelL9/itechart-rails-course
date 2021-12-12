@@ -2,7 +2,7 @@ require 'rails_helper'
 # rubocop:disable Metrics/BlockLength
 RSpec.describe UserPersonality, type: :model do
   # rubocop:enable Metrics/BlockLength
-  subject { UserPersonality.new(name: 'GrandPa', user: User.create(email: 'test@test.com', password: 'password')) }
+  subject { FactoryGirl.create(:user_personality) }
 
   context 'validation tests' do
     it 'ensures name presence' do
@@ -21,8 +21,7 @@ RSpec.describe UserPersonality, type: :model do
     end
 
     it 'name should be unique' do
-      subject.save
-      personality = UserPersonality.new(name: 'GrandPa', user: subject.user).save
+      personality = FactoryGirl.build(:user_personality, name: subject.name, user: subject.user).save
       expect(personality).to eq(false)
     end
 
@@ -36,10 +35,10 @@ RSpec.describe UserPersonality, type: :model do
       subject.user = nil
       expect(subject).to_not be_valid
     end
-    # FIXME: change test due to changes of methods
-    it 'ensures last user personality remains' do
-      destroy_action = subject.user.user_personalities.last.destroy
-      expect(destroy_action).to eq(nil)
+
+    it 'Cant delete personality, if it has childs' do
+      personality = FactoryGirl.create(:user_personality_with_categories)
+      expect { personality.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
     end
   end
 end

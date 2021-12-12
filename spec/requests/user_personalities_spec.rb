@@ -2,9 +2,9 @@ require 'rails_helper'
 # rubocop:disable Metrics/BlockLength
 RSpec.describe 'UserPersonalities', type: :request do
   # rubocop:enable Metrics/BlockLength
+  let(:user) { FactoryGirl.create(:user) }
+  let(:personality) { FactoryGirl.create(:user_personality, user: user) }
   before do
-    User.create(email: 'test@test.com', password: 'password')
-    user = User.first
     sign_in user
   end
 
@@ -22,18 +22,12 @@ RSpec.describe 'UserPersonalities', type: :request do
     end
 
     it 'should show view show template' do
-      user = User.first
-      personality = UserPersonality.create(name: 'GrandPa', user: user)
-
       get user_personality_path(personality)
-      expect(response.body).to include 'GrandPa'
+      expect(response.body).to include 'Son'
       expect(response).to have_http_status(200)
     end
 
     it 'should show view edit template' do
-      user = User.first
-      personality = UserPersonality.create(name: 'GrandPa', user: user)
-
       get edit_user_personality_path(personality)
       expect(response.body).to include 'Update personality'
       expect(response).to have_http_status(200)
@@ -41,15 +35,13 @@ RSpec.describe 'UserPersonalities', type: :request do
   end
 
   describe 'POST/PUT/PATCH routes tests' do
-    it 'create userpersonality' do
-      post user_personalities_path, params: { user_personality: { name: 'GrandPa' } }
+    it 'create user_personality' do
+      post user_personalities_path, params: { user_personality: { name: 'Son' } }
 
       expect(response).to have_http_status(302)
     end
 
-    it 'update userpersonality' do
-      user = User.first
-      personality = UserPersonality.create(name: 'GrandPa', user: user)
+    it 'update user_personality' do
       new_name = 'NewPerson'
       patch user_personality_path(personality), params: { user_personality: { name: new_name } }
       expect(response).to have_http_status(302)
@@ -59,10 +51,9 @@ RSpec.describe 'UserPersonalities', type: :request do
       expect(response).to have_http_status(200)
     end
 
-    it 'delete userpersonality' do
-      user = User.first
-      personality1 = UserPersonality.create(name: 'GrandPa', user: user)
-      personality2 = UserPersonality.create(name: 'NewPerson', user: user)
+    it 'delete user_personality' do
+      personality1 = FactoryGirl.create(:user_personality, user: user)
+      personality2 = FactoryGirl.create(:user_personality, user: user)
       delete user_personality_path(personality1)
       expect(response).to have_http_status(302)
       follow_redirect!
