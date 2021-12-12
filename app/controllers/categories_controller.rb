@@ -17,10 +17,6 @@ class CategoriesController < ApplicationController
       render 'new'
     end
   end
-  # TODO: ask if u need index page (u can see list of all categories on personality/show)
-  # def index
-  #   @categories = Category.all.where(user_personality_id: current_personality.id)
-  # end
 
   def show; end
 
