@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  subject { User.new(email: 'test@test.com', password: 'password') }
+  subject { FactoryGirl.create(:user) }
 
   context 'validation tests' do
     it 'ensures email presence' do
@@ -10,8 +10,8 @@ RSpec.describe User, type: :model do
     end
 
     it 'ensures password presence' do
-      subject.password = nil
-      expect(subject).to_not be_valid
+      user = FactoryGirl.build(:user, password: '')
+      expect(user).to_not be_valid
     end
 
     it 'ensures email valid' do

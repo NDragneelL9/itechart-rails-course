@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_05_180424) do
+ActiveRecord::Schema.define(version: 2021_12_11_170920) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name", default: "", null: false
+    t.integer "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "USD", null: false
+    t.bigint "user_personality_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_personality_id", "name"], name: "index_categories_on_user_personality_id_and_name", unique: true
+    t.index ["user_personality_id"], name: "index_categories_on_user_personality_id"
+  end
 
   create_table "user_personalities", force: :cascade do |t|
     t.string "name", default: "", null: false
@@ -36,5 +47,6 @@ ActiveRecord::Schema.define(version: 2021_12_05_180424) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "categories", "user_personalities"
   add_foreign_key "user_personalities", "users", on_delete: :cascade
 end

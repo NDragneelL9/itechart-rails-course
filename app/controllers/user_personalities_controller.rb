@@ -23,7 +23,9 @@ class UserPersonalitiesController < ApplicationController
     @personalities = current_user.user_personalities
   end
 
-  def show; end
+  def show
+    @categories = Category.all.where(user_personality_id: @personality.id)
+  end
 
   def edit; end
 
