@@ -1,0 +1,37 @@
+<% @transactions.each do |transaction| %>
+  <div class="row">
+    <div class="col s6 offset-s3">
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">
+            Transaction info
+          </span>
+            <% if transaction.withdrawal %>
+              <h1>-<%= '%.2f' %(transaction.amount_cents.to_f / 100) %>
+                   <%= transaction.amount_currency %>
+              </h1>
+            <% else %>
+              <h1><%= '%.2f' %(transaction.amount_cents.to_f / 100) %>
+                  <%= transaction.amount_currency %>
+              </h1>
+            <% end %>
+            <p> 
+            Created <%= transaction.created_at.strftime("%H:%M  %d.%m.%Y") %> <br>
+            Edited <%= transaction.updated_at.strftime("%H:%M  %d.%m.%Y")  %>
+            </p>
+        </div>
+        <div class="card-action">
+          <%= link_to edit_user_personality_category_transaction_path(@personality, @category, transaction), class: "waves-effect waves-light btn light-green darken-2" do %>
+            <i class="material-icons left">edit</i>Edit
+          <% end %>
+          <%= link_to user_personality_category_transaction_path(@personality, @category, transaction), 
+              class: "waves-effect waves-light btn light-green darken-2", 
+              method: :delete, 
+              data: {confirm: "Are you sure?"} do %>
+            <i class="material-icons left">delete</i>Delete
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
