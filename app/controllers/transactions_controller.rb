@@ -1,7 +1,8 @@
 # Controller to transactions entities
-class TransactionController < ApplicationController
-  before_action :set_transaction, only: %i[show edit update destroy]
-  before_action :require_same_category, only: %i[show edit update destroy]
+class TransactionsController < ApplicationController
+  before_action :set_personality_category
+  before_action :set_transaction, only: %i[edit update destroy]
+  before_action :require_same_category, only: %i[edit update destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def new
@@ -9,23 +10,25 @@ class TransactionController < ApplicationController
   end
 
   def create
-    @transaction = Transaction.new() # TODO: add params here
+    @transaction = Transaction.new(withdrawal: transaction_params[:withdrawal],
+                                   amount_cents: transaction_params[:amount_cents],
+                                   category_id: @category.id)
     if @transaction.save
       # TODO: Add toasts success notifications
-      redirect_to # TODO: insert the redirection to transaction show page
+      redirect_to user_personality_category_path(@personality, @category)
     else
       render 'new'
     end
   end
 
-  def show; end
-
   def edit; end
 
   def update
-    if @transaction.update() # TODO: add params here
+    if @transaction.update(withdrawal: transaction_params[:withdrawal],
+                           amount_cents: transaction_params[:amount_cents],
+                           category_id: @category.id)
       # TODO: Add toasts success notifications
-      redirect_to # TODO: insert the redirection to transaction show page
+      redirect_to user_personality_category_path(@personality, @category)
     else
       render 'edit'
     end
@@ -33,27 +36,32 @@ class TransactionController < ApplicationController
 
   def destroy
     @transaction.destroy
-    redirect_to # TODO: insert the redirection to transactions index page
+    redirect_to user_personality_category_path(@personality, @category)
   end
 
   private
 
-  def set_category
+  def set_transaction
     @transaction = Transaction.find(params[:id])
   end
 
-  def category_params
+  def set_personality_category
+    @personality = UserPersonality.find(params[:user_personality_id])
+    @category = Category.find(params[:category_id])
+  end
+
+  def transaction_params
     params.require(:transaction).permit(:withdrawal, :amount_cents)
   end
 
-  def require_same_personality
-    return unless current_category != @transaction.category
+  def require_same_category
+    return unless @category != @transaction.category
 
     # TODO: Add toasts that u cant perform actions with not yours transactions
-    redirect_to # TODO: insert the redirection to transactions index page
+    redirect_to user_personality_category_path(@personality, @category)
   end
 
   def record_not_found
-    redirect_to # TODO: insert the redirection to transactions index page
+    redirect_to user_personality_category_path(@personality, @category)
   end
 end
