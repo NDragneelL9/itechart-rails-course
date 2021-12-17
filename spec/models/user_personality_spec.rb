@@ -4,7 +4,7 @@ RSpec.describe UserPersonality, type: :model do
   # rubocop:enable Metrics/BlockLength
   subject { FactoryGirl.create(:user_personality) }
 
-  context 'validation tests' do
+  context 'Validation tests' do
     it 'ensures name presence' do
       subject.name = ''
       expect(subject).to_not be_valid
@@ -36,8 +36,8 @@ RSpec.describe UserPersonality, type: :model do
       expect(subject).to_not be_valid
     end
 
-    it 'Cant delete personality, if it has childs' do
-      personality = FactoryGirl.create(:user_personality_with_categories)
+    it 'Cant delete personality, if it has category with transactions' do
+      personality = FactoryGirl.create(:user_personality_with_categories_transactions)
       expect { personality.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
     end
   end
