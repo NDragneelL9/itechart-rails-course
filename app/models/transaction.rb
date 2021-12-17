@@ -1,6 +1,6 @@
 class Transaction < ApplicationRecord
   belongs_to :category
-
+  validates :amount_cents, numericality: { only_integer: true }
   before_update :rollback_update_action
   before_destroy :rollback_update_action
   after_save :update_category_amount
