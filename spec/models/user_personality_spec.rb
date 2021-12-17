@@ -40,5 +40,11 @@ RSpec.describe UserPersonality, type: :model do
       personality = FactoryGirl.create(:user_personality_with_categories_transactions)
       expect { personality.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
     end
+
+    it 'Can delete personality, if it has category without transactions' do
+      personality = FactoryGirl.create(:user_personality_with_categories)
+      personality.destroy
+      expect { UserPersonality.find(personality.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
   end
 end

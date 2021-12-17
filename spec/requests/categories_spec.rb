@@ -30,7 +30,7 @@ RSpec.describe 'Categories', type: :request do
     end
   end
 
-  describe 'POST/PATCH/DELETE routes tests for categories' do
+  describe 'positive POST/PATCH/DELETE routes tests for categories' do
     it 'should create category' do
       name = 'Food'
       post user_personality_categories_path(personality), params: { category: { name: name } }
@@ -50,6 +50,34 @@ RSpec.describe 'Categories', type: :request do
       delete user_personality_category_path(personality, category)
       expect(response).to have_http_status(302)
       expect { Category.find(category.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe 'negative POST/PATCH/DELETE routes tests for categories' do
+    it 'should render new template if params werent correct' do
+      name = ''
+      post user_personality_categories_path(personality), params: { category: { name: name } }
+      expect(response.body).to include 'Create category'
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should render edit template if params werent correct' do
+      new_name = ''
+      patch user_personality_category_path(personality, category), params: { category: { name: new_name } }
+      expect(response.body).to include 'Update category'
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should restrict access to act with unfamiliar categories' do
+      personality2 = FactoryGirl.create(:user_personality, user: user)
+      get user_personality_category_path(personality2, category)
+      expect(response).to have_http_status(302)
+    end
+
+    it 'should handle record not found error' do
+      fake_category_id = 0
+      get user_personality_category_path(personality, fake_category_id)
+      expect(response).to have_http_status(302)
     end
   end
 end

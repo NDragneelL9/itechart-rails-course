@@ -34,7 +34,7 @@ RSpec.describe 'UserPersonalities', type: :request do
     end
   end
 
-  describe 'POST/PATCH/DELETE routes tests for personalities' do
+  describe 'positive POST/PATCH/DELETE routes tests for personalities' do
     it 'should create personality' do
       name = 'Son'
       post user_personalities_path, params: { user_personality: { name: name } }
@@ -54,6 +54,35 @@ RSpec.describe 'UserPersonalities', type: :request do
       delete user_personality_path(personality)
       expect(response).to have_http_status(302)
       expect { UserPersonality.find(personality.id) }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  describe 'negative POST/PATCH/DELETE routes tests for personalities' do
+    it 'should render new template if params werent correct' do
+      name = ''
+      post user_personalities_path, params: { user_personality: { name: name } }
+      expect(response.body).to include 'Create personality'
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should render edit template if params werent correct' do
+      new_name = ''
+      patch user_personality_path(personality), params: { user_personality: { name: new_name } }
+      expect(response.body).to include 'Update personality'
+      expect(response).to have_http_status(200)
+    end
+
+    it 'should restrict access to act with unfamiliar personalities' do
+      user2 = FactoryGirl.create(:user)
+      personality2 = FactoryGirl.create(:user_personality, user: user2)
+      get user_personality_path(personality2)
+      expect(response).to have_http_status(302)
+    end
+
+    it 'should handle record not found error' do
+      fake_personality_id = 0
+      get user_personality_path(fake_personality_id)
+      expect(response).to have_http_status(302)
     end
   end
 end
