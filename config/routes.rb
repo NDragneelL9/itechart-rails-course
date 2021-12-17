@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   resources :user_personalities do
-    resources :categories do 
-      resources :transactions, shallow: true
+    resources :categories, except: :index do 
+      resources :transactions, except: %i[index show]
     end
   end
   devise_for :users
