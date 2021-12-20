@@ -4,12 +4,8 @@ FactoryGirl.define do
     sequence(:name) { |i| "Food_#{i}" }
 
     factory :category_with_transactions do
-      transient do
-        transactions_count 10
-      end
-
-      after(:create) do |category, evaluator|
-        create_list(:transaction, evaluator.transactions_count, category: category)
+      before(:create) do |category|
+        category.transactions << build(:transaction)
       end
     end
   end
