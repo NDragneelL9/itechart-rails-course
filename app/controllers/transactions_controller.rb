@@ -3,7 +3,6 @@ class TransactionsController < ApplicationController
   before_action :set_personality_category
   before_action :set_transaction, only: %i[edit update destroy]
   before_action :require_same_category, only: %i[edit update destroy]
-  rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
 
   def new
     @transaction = Transaction.new
@@ -58,10 +57,6 @@ class TransactionsController < ApplicationController
     return unless @category != @transaction.category
 
     # TODO: Add toasts that u cant perform actions with not yours transactions
-    redirect_to user_personality_category_path(@personality, @category)
-  end
-
-  def record_not_found
     redirect_to user_personality_category_path(@personality, @category)
   end
 end
