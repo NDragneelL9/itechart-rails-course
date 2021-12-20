@@ -78,11 +78,19 @@ RSpec.describe 'UserPersonalities', type: :request do
       get user_personality_path(personality2)
       expect(response).to have_http_status(302)
     end
+  end
 
+  describe 'error handler tests' do
     it 'should handle record not found error' do
       fake_personality_id = 0
       get user_personality_path(fake_personality_id)
-      expect(response).to have_http_status(302)
+      expect(response.body).to include "Something wen't wrong"
+    end
+
+    it 'should handle delete restriction error' do
+      personality_with_transactions = FactoryGirl.create(:user_personality_with_categories_transactions)
+      personality_to_destroy = UserPersonality.find(personality_with_transactions.id)
+      expect { personality_to_destroy.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
     end
   end
 end

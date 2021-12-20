@@ -81,7 +81,7 @@ RSpec.describe 'Categories', type: :request do
       new_amount_cents = 400
       patch user_personality_category_transaction_path(personality, category, fake_transaction_id),
             params: { transaction: { amount_cents: new_amount_cents } }
-      expect(response).to have_http_status(302)
+      expect(response.body).to include "Something wen't wrong"
     end
   end
 end

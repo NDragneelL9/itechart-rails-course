@@ -73,11 +73,19 @@ RSpec.describe 'Categories', type: :request do
       get user_personality_category_path(personality2, category)
       expect(response).to have_http_status(302)
     end
+  end
 
+  describe 'error handler tests' do
     it 'should handle record not found error' do
       fake_category_id = 0
       get user_personality_category_path(personality, fake_category_id)
-      expect(response).to have_http_status(302)
+      expect(response.body).to include "Something wen't wrong"
+    end
+
+    it 'should handle delete restriction error' do
+      category_with_transactions = FactoryGirl.create(:category_with_transactions)
+      category_to_destroy = Category.find(category_with_transactions.id)
+      expect { category_to_destroy.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
     end
   end
 end
