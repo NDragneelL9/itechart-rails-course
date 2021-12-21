@@ -1,5 +1,4 @@
 $(document).ready ->
-  $('input, textarea').characterCounter()
   $('textarea').trigger('autoresize')
   $('select').material_select()
   $('.datepicker').pickadate

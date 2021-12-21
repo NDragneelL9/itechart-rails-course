@@ -4,7 +4,7 @@
       <span class="card-title center"><%= @category.id.nil? ? 'Create category' : 'Update category' %></span>
       <div class="divider"></div>
       <%= render 'shared/error_messages', obj: @category %>
-      <%= form_for [current_personality, @category] do |f| %>
+      <%= form_for [@personality, @category] do |f| %>
         <div class="form-inputs row">
           <div class="input-field col s12">
             <%= f.text_field :name, required: true, autofocus: true, placeholder: "Food" %>

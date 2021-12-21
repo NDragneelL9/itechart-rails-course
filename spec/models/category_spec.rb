@@ -4,7 +4,7 @@ RSpec.describe Category, type: :model do
   # rubocop:enable Metrics/BlockLength
   subject { FactoryGirl.create(:category) }
 
-  context 'validation tests' do
+  context 'Validation tests' do
     it 'ensures name presence' do
       subject.name = ''
       expect(subject).to_not be_valid
@@ -35,10 +35,10 @@ RSpec.describe Category, type: :model do
       subject.user_personality = nil
       expect(subject).to_not be_valid
     end
-    # TODO: uncomment after creating transactions
-    # it 'Cant delete category, if it has childs' do
-    #   category = FactoryGirl.create(:category_with_transactions)
-    #   expect{ category.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
-    # end
+
+    it 'Cant delete category, if it has childs' do
+      category = FactoryGirl.create(:category_with_transactions)
+      expect { category.destroy }.to raise_error(ActiveRecord::DeleteRestrictionError)
+    end
   end
 end

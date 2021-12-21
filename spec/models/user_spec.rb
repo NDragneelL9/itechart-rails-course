@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   subject { FactoryGirl.create(:user) }
 
-  context 'validation tests' do
+  context 'Validation tests' do
     it 'ensures email presence' do
       subject.email = nil
       expect(subject).to_not be_valid

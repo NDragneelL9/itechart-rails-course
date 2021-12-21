@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_12_11_170920) do
+ActiveRecord::Schema.define(version: 2021_12_15_150146) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,17 @@ ActiveRecord::Schema.define(version: 2021_12_11_170920) do
     t.datetime "updated_at", null: false
     t.index ["user_personality_id", "name"], name: "index_categories_on_user_personality_id_and_name", unique: true
     t.index ["user_personality_id"], name: "index_categories_on_user_personality_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.boolean "withdrawal"
+    t.integer "amount_cents", default: 0, null: false
+    t.string "amount_currency", default: "USD", null: false
+    t.boolean "important"
+    t.bigint "category_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_transactions_on_category_id"
   end
 
   create_table "user_personalities", force: :cascade do |t|
@@ -48,5 +59,6 @@ ActiveRecord::Schema.define(version: 2021_12_11_170920) do
   end
 
   add_foreign_key "categories", "user_personalities"
+  add_foreign_key "transactions", "categories"
   add_foreign_key "user_personalities", "users", on_delete: :cascade
 end
