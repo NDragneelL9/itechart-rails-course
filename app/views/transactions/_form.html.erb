@@ -13,8 +13,8 @@
             </label>
           </div>
           <div class="input-field col s6">
-            <%= f.text_field :amount_cents, required: true, autofocus: true %>
-            <%= f.label :amount_cents%>
+            <%= f.number_field :amount_cents, step: 0.01, required: true, placeholder: "5.55" %>
+            <%= f.label 'Amount', for: :amount_cents %>
           </div>
         </div>
         <div class="form-actions center">

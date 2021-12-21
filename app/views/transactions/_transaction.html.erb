@@ -6,6 +6,18 @@
           <span class="card-title">
             Transaction info
           </span>
+          <% transaction.notes.each do |note| %>
+            <p><%= note.description %></p>
+            <%= link_to user_personality_category_transaction_note_path(@personality, @category, transaction, note), 
+              class: "waves-effect waves-light btn light-green darken-2", 
+              method: :delete, 
+              data: {confirm: "Are you sure?"} do %>
+            <i class="material-icons left">delete</i>Delete
+          <% end %>
+          <% end %>
+          <%= link_to new_user_personality_category_transaction_note_path(@personality, @category, transaction), class: "waves-effect waves-light btn light-green darken-2" do %>
+            <i class="material-icons left">add</i>NOTE
+          <% end %>
             <% if transaction.withdrawal %>
               <h1>-<%= '%.2f' %(transaction.amount_cents.to_f / 100) %>
                    <%= transaction.amount_currency %>

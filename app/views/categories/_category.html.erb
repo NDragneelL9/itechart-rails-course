@@ -4,10 +4,11 @@
       <div class="card blue-grey darken-1">
         <div class="card-content white-text">
           <span class="card-title"><%= category.name %></span>
-          <p>Amount of cash: 
-            <%= category.amount_cents %> 
+          <p>Amount of cash: </p>
+          <h1>
+            <%= '%.2f' %(category.amount_cents.to_f / 100) %>
             <%= category.amount_currency %>
-          </p>
+          </h1>
         </div>
         <div class="card-action">
           <%= link_to edit_user_personality_category_path(@personality, category), class: "waves-effect waves-light btn light-green darken-2" do %>
