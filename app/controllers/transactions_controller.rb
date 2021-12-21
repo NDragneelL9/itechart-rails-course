@@ -10,7 +10,7 @@ class TransactionsController < ApplicationController
 
   def create
     @transaction = Transaction.new(withdrawal: transaction_params[:withdrawal],
-                                   amount_cents: transaction_params[:amount_cents],
+                                   amount_cents: (transaction_params[:amount_cents].to_f * 100).to_i,
                                    category_id: @category.id)
     if @transaction.save
       # TODO: Add toasts success notifications
@@ -24,7 +24,7 @@ class TransactionsController < ApplicationController
 
   def update
     if @transaction.update(withdrawal: transaction_params[:withdrawal],
-                           amount_cents: transaction_params[:amount_cents],
+                           amount_cents: (transaction_params[:amount_cents].to_f * 100).to_i,
                            category_id: @category.id)
       # TODO: Add toasts success notifications
       redirect_to user_personality_category_path(@personality, @category)
