@@ -12,7 +12,7 @@ class CategoriesController < ApplicationController
     @category = Category.new(name: category_params[:name], user_personality: @personality)
     if @category.save
       # TODO: Add toasts success notifications
-      redirect_to user_personality_path(@personality)
+      redirect_to @personality
     else
       render 'new'
     end
@@ -28,7 +28,7 @@ class CategoriesController < ApplicationController
   def update
     if @category.update(name: category_params[:name], user_personality: @personality)
       # TODO: Add toasts success notifications
-      redirect_to user_personality_path(@personality)
+      redirect_to @personality
     else
       render 'edit'
     end
@@ -36,7 +36,7 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category.destroy
-    redirect_to user_personality_path(@personality)
+    redirect_to @personality
   end
 
   private
@@ -57,6 +57,6 @@ class CategoriesController < ApplicationController
     return unless @personality != @category.user_personality
 
     # TODO: Add toasts that u cant perform actions with not yours categories
-    redirect_to user_personality_path(@personality)
+    redirect_to @personality
   end
 end

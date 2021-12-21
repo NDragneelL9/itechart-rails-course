@@ -14,7 +14,7 @@ class TransactionsController < ApplicationController
                                    category_id: @category.id)
     if @transaction.save
       # TODO: Add toasts success notifications
-      redirect_to user_personality_category_path(@personality, @category)
+      redirect_to [@personality, @category]
     else
       render 'new'
     end
@@ -27,7 +27,7 @@ class TransactionsController < ApplicationController
                            amount_cents: (transaction_params[:amount_cents].to_f * 100).to_i,
                            category_id: @category.id)
       # TODO: Add toasts success notifications
-      redirect_to user_personality_category_path(@personality, @category)
+      redirect_to [@personality, @category]
     else
       render 'edit'
     end
@@ -35,7 +35,7 @@ class TransactionsController < ApplicationController
 
   def destroy
     @transaction.destroy
-    redirect_to user_personality_category_path(@personality, @category)
+    redirect_to [@personality, @category]
   end
 
   private
@@ -57,6 +57,6 @@ class TransactionsController < ApplicationController
     return unless @category != @transaction.category
 
     # TODO: Add toasts that u cant perform actions with not yours transactions
-    redirect_to user_personality_category_path(@personality, @category)
+    redirect_to [@personality, @category]
   end
 end

@@ -1,6 +1,6 @@
 <div class="container center">
   <h1 class="center"> Choose your personality </h1>
   <% @personalities.each do |personality| %>
-    <%= link_to personality.name, user_personality_path(personality), class: "waves-effect waves-light btn light-green darken-2" %>
+    <%= link_to personality.name, personality, class: "waves-effect waves-light btn light-green darken-2" %>
   <% end %>
 </div>

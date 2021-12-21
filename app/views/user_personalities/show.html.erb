@@ -6,10 +6,10 @@
           <span class="card-title"><%= @personality.name %></span>
         </div>
         <div class="card-action">
-          <%= link_to edit_user_personality_path(@personality), class: "waves-effect waves-light btn light-green darken-2" do %>
+          <%= link_to [:edit, @personality], class: "waves-effect waves-light btn light-green darken-2" do %>
             <i class="material-icons left">edit</i>Edit
           <% end %>
-          <%= link_to user_personality_path(@personality), 
+          <%= link_to @personality, 
               class: "waves-effect waves-light btn light-green darken-2", 
               method: :delete, 
               data: {confirm: "Are you sure?"} do %>
@@ -19,7 +19,7 @@
       </div>
     </div>
   </div>
-   <%= link_to new_user_personality_category_path(@personality), class: "waves-effect waves-light btn light-green darken-2" do %>
+   <%= link_to [:new, @personality, :category], class: "waves-effect waves-light btn light-green darken-2" do %>
     <i class="material-icons left">add</i>Create category
   <% end %>
   <%= render 'categories/category' %>

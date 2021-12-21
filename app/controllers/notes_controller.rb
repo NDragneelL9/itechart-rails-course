@@ -12,7 +12,7 @@ class NotesController < ApplicationController
     @note = Note.new(description: note_params[:description], transaction_id: @transaction.id)
     if @note.save
       # TODO: Add toasts success notifications
-      redirect_to user_personality_category_path(@personality, @category)
+      redirect_to [@personality, @category]
     else
       render 'new'
     end
@@ -25,7 +25,7 @@ class NotesController < ApplicationController
   def update
     if @note.update(description: note_params[:description], transaction_id: @transaction.id)
       # TODO: Add toasts success notifications
-      redirect_to user_personality_category_path(@personality, @category)
+      redirect_to [@personality, @category]
     else
       render 'edit'
     end
@@ -33,7 +33,7 @@ class NotesController < ApplicationController
 
   def destroy
     @note.destroy
-    redirect_to user_personality_category_path(@personality, @category)
+    redirect_to [@personality, @category]
   end
 
   private
