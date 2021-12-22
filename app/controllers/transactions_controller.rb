@@ -6,12 +6,14 @@ class TransactionsController < ApplicationController
 
   def new
     @transaction = Transaction.new
+    @transaction.notes.build
   end
 
   def create
-    @transaction = Transaction.new(withdrawal: transaction_params[:withdrawal],
-                                   amount_cents: (transaction_params[:amount_cents].to_f * 100).to_i,
-                                   category_id: @category.id)
+    create_transaction_params = transaction_params
+    create_transaction_params[:amount_cents] = (transaction_params[:amount_cents].to_f * 100).to_i
+    @transaction = Transaction.new(create_transaction_params)
+    @transaction.category = @category
     if @transaction.save
       # TODO: Add toasts success notifications
       redirect_to [@personality, @category]
@@ -50,7 +52,8 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    params.require(:transaction).permit(:withdrawal, :amount_cents)
+    # params.require(:transaction).permit(:withdrawal, :amount_cents, notes_attributes: [:id, :_destroy, :transaction_id, :description])
+    params.require(:transaction).permit(:withdrawal, :amount_cents, notes_attributes: Note.attribute_names.map(&:to_sym).push(:_destroy))
   end
 
   def require_same_category

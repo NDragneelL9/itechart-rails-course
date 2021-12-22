@@ -5,6 +5,7 @@ class Transaction < ApplicationRecord
   before_update :rollback_update_action
   before_destroy :rollback_update_action
   after_save :update_category_amount
+  accepts_nested_attributes_for :notes, allow_destroy: true
 
   private
 
