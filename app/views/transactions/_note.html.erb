@@ -1,0 +1,8 @@
+<div class="center">
+  <p class="input-field col s6 offset-m3">
+    Note
+    <%= f.text_area :description, label: false %>
+    <%= f.input_field :_destroy, as: :hidden %>
+    <%= link_to 'Delete note', '#', class: 'remove_record' %>
+  </p>
+</div>
