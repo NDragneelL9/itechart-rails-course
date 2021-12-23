@@ -35,10 +35,17 @@ h5,
 h6 {
   font-weight: Bold;
   font-size: 30px;
-  color: black;
+  color: #FFFFFF;
 }
 
 /* custom css */
+body {
+  background-color: #C8B88A;
+}
+
+.card {
+  background-color: #cfd8dc;
+}
 
 .brand-logo {
   font-size: 3rem !important;
@@ -74,4 +81,12 @@ h6 {
   transform-origin: 0% 100%;
   text-align: initial;
   transform: translateY(12px);
+}
+
+.remove_record {
+  color: red;
+}
+
+textarea {
+  border: 1px solid black; 
 }

@@ -20,8 +20,10 @@
             <%= f.label 'Amount', for: :amount_cents %>
           </div>
           <br>
-          <%= link_to_add_row('Add note', f, :notes,
-              class: 'btn waves-effect white-text light-green darken-2') %>
+          <%= link_to_add_row('Note', f, :notes,
+              class: 'btn waves-effect white-text light-green darken-2') do %>
+             <i class="material-icons rigth">edit</i>
+          <% end %>
           <div class="fields col s12 center">
             <%= f.fields_for :notes do |builder| %>
               <%= render 'note', f: builder %>
