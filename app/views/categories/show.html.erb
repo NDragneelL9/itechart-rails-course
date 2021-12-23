@@ -3,7 +3,9 @@
     <div class="col s6 offset-s3">
       <div class="card blue-grey darken-1">
         <div class="card-content white-text">
-          <span class="card-title"><%= @category.name %></span>
+          <span class="card-title">
+            <%= @category.name %>
+          </span>
           <p>Amount of resources:</p>
           <h1>
             <%= '%.2f' %(@category.amount_cents.to_f / 100) %>
@@ -11,7 +13,8 @@
           </h1>
         </div>
         <div class="card-action">
-          <%= link_to [:edit, @personality, @category], class: "waves-effect waves-light btn light-green darken-2" do %>
+          <%= link_to [:edit, @personality, @category],
+              class: "waves-effect waves-light btn light-green darken-2" do %>
             <i class="material-icons left">edit</i>Edit
           <% end %>
           <%= link_to [@personality, @category], 
@@ -24,7 +27,8 @@
       </div>
     </div>
   </div>
-  <%= link_to [:new, @personality, @category, :transaction], class: "waves-effect waves-light btn light-green darken-2" do %>
+  <%= link_to [:new, @personality, @category, :transaction],
+      class: "waves-effect waves-light btn light-green darken-2" do %>
     <i class="material-icons left">add</i>Create transaction
   <% end %>
   <%= render 'transactions/transaction' %>
