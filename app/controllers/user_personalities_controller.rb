@@ -2,6 +2,7 @@
 class UserPersonalitiesController < ApplicationController
   before_action :set_personality, only: %i[show edit update destroy]
   before_action :require_same_user, only: %i[show edit update destroy]
+
   def new
     @personality = UserPersonality.new
   end
@@ -10,8 +11,7 @@ class UserPersonalitiesController < ApplicationController
     @personality = UserPersonality.new(personality_params)
     @personality.user_id = current_user.id
     if @personality.save
-      # FIXME: flash notice doesnt work
-      # flash[:notice] = 'Personality was created successfully'
+      # TODO: Add toasts
       redirect_to @personality
     else
       render 'new'
@@ -30,8 +30,7 @@ class UserPersonalitiesController < ApplicationController
 
   def update
     if @personality.update(personality_params)
-      # FIXME: flash notice doesnt work
-      # flash[:notice] = 'Personality was updated successfully'
+      # TODO: Add toasts
       redirect_to @personality
     else
       render 'edit'
@@ -56,8 +55,7 @@ class UserPersonalitiesController < ApplicationController
   def require_same_user
     return unless current_user != @personality.user
 
-    # FIXME: flash alert doesnt work
-    # flash[:alert] = "You can't perfotm actions with this article"
+    # TODO: Add toasts
     redirect_to user_personalities_path
   end
 end

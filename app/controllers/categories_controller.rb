@@ -19,8 +19,12 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    last_month = Time.zone.now.last_month
-    @transactions = @category.transactions.where('created_at > ? or updated_at > ?', last_month, last_month)
+    @search = TransactionSearch.new(params[:search])
+    @transactions = if @search.only_notes
+                      @search.scope_with_notes
+                    else
+                      @search.scope
+                    end
   end
 
   def edit; end

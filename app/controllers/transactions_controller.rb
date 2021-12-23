@@ -13,7 +13,7 @@ class TransactionsController < ApplicationController
     create_transaction_params = transaction_params
     create_transaction_params[:amount_cents] = (transaction_params[:amount_cents].to_f * 100).to_i
     @transaction = Transaction.new(create_transaction_params)
-    @transaction.category = @category
+    @category.transactions << @transaction
     if @transaction.save
       # TODO: Add toasts success notifications
       redirect_to [@personality, @category]
@@ -25,9 +25,10 @@ class TransactionsController < ApplicationController
   def edit; end
 
   def update
-    if @transaction.update(withdrawal: transaction_params[:withdrawal],
-                           amount_cents: (transaction_params[:amount_cents].to_f * 100).to_i,
-                           category_id: @category.id)
+    # BUGFIX: when going to edit page, convert amount_cents to usd
+    update_transaction_params = transaction_params
+    update_transaction_params[:amount_cents] = (transaction_params[:amount_cents].to_f * 100).to_i
+    if @transaction.update(update_transaction_params)
       # TODO: Add toasts success notifications
       redirect_to [@personality, @category]
     else
@@ -52,8 +53,8 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    # params.require(:transaction).permit(:withdrawal, :amount_cents, notes_attributes: [:id, :_destroy, :transaction_id, :description])
-    params.require(:transaction).permit(:withdrawal, :amount_cents, notes_attributes: Note.attribute_names.map(&:to_sym).push(:_destroy))
+    params.require(:transaction).permit(:withdrawal, :amount_cents,
+                                        notes_attributes: Note.attribute_names.map(&:to_sym).push(:_destroy))
   end
 
   def require_same_category
