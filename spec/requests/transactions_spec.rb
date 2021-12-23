@@ -13,7 +13,7 @@ RSpec.describe 'Categories', type: :request do
 
   describe 'GET routes tests for transactions' do
     it 'should show new template' do
-      get url_for([personality, category])
+      get url_for([:new, personality, category, :transaction])
       expect(response.body).to include 'Create transaction'
       expect(response).to have_http_status(200)
     end
@@ -61,7 +61,7 @@ RSpec.describe 'Categories', type: :request do
     it 'should handle record not found error' do
       fake_transaction_id = 0
       new_amount_usd = 4.00
-      patch url_for([personality, category, transaction_id: fake_transaction_id]),
+      patch url_for([personality, category, { transaction_id: fake_transaction_id }]),
             params: { transaction: { amount_cents: new_amount_usd } }
       expect(response.body).to include "Something wen't wrong"
     end
