@@ -90,3 +90,23 @@ body {
 textarea {
   border: 1px solid black; 
 }
+
+/* label focus color */
+.input-field input:focus + label {
+  color: #689f38 !important;
+}
+
+/* label underline focus color */
+.row .input-field input:focus {
+  border-bottom: 1px solid #689f38 !important;
+  box-shadow: 0 1px 0 0 #689f38 !important
+}
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: #689f38;
+}
+
+::placeholder {
+  color: rgba(20, 51, 18, 0.493);
+}
