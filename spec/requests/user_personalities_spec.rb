@@ -22,13 +22,13 @@ RSpec.describe 'UserPersonalities', type: :request do
     end
 
     it 'should show show template' do
-      get user_personality_path(personality)
+      get url_for([personality])
       expect(response.body).to include personality.name
       expect(response).to have_http_status(200)
     end
 
     it 'should show edit template' do
-      get edit_user_personality_path(personality)
+      get url_for([:edit, personality])
       expect(response.body).to include 'Update personality'
       expect(response).to have_http_status(200)
     end
@@ -44,14 +44,14 @@ RSpec.describe 'UserPersonalities', type: :request do
 
     it 'should update personality' do
       new_name = 'NewPerson'
-      patch user_personality_path(personality), params: { user_personality: { name: new_name } }
+      patch url_for([personality]), params: { user_personality: { name: new_name } }
       personality_new_name = UserPersonality.find(personality.id).name
       expect(personality_new_name).to eq(new_name)
       expect(response).to have_http_status(302)
     end
 
     it 'should delete personality' do
-      delete user_personality_path(personality)
+      delete url_for([personality])
       expect(response).to have_http_status(302)
       expect { UserPersonality.find(personality.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
@@ -67,7 +67,7 @@ RSpec.describe 'UserPersonalities', type: :request do
 
     it 'should render edit template if params werent correct' do
       new_name = ''
-      patch user_personality_path(personality), params: { user_personality: { name: new_name } }
+      patch url_for([personality]), params: { user_personality: { name: new_name } }
       expect(response.body).to include 'Update personality'
       expect(response).to have_http_status(200)
     end
@@ -75,7 +75,7 @@ RSpec.describe 'UserPersonalities', type: :request do
     it 'should restrict access to act with unfamiliar personalities' do
       user2 = FactoryGirl.create(:user)
       personality2 = FactoryGirl.create(:user_personality, user: user2)
-      get user_personality_path(personality2)
+      get url_for([personality2])
       expect(response).to have_http_status(302)
     end
   end
