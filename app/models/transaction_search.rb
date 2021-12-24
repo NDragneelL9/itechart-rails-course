@@ -3,8 +3,9 @@ class TransactionSearch
 
   def initialize(params)
     params ||= {}
-    @date_from = parsed_date(params[:date_from], Time.zone.now.last_month.to_date.to_s)
-    @date_to = parsed_date(params[:date_to], Time.zone.now.to_date.to_s)
+    time_now = Time.zone.now
+    @date_from = parsed_date(params[:date_from], time_now.last_month.to_date.to_s)
+    @date_to = parsed_date(params[:date_to], time_now.to_date.next_day.to_s)
     @only_notes = params[:only_notes]
     @category_id = (params[:category_id]).to_i
   end
