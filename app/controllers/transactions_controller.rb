@@ -25,7 +25,6 @@ class TransactionsController < ApplicationController
   def edit; end
 
   def update
-    # BUGFIX: when going to edit page, convert amount_cents to usd
     update_transaction_params = transaction_params
     update_transaction_params[:amount_cents] = (transaction_params[:amount_cents].to_f * 100).to_i
     if @transaction.update(update_transaction_params)

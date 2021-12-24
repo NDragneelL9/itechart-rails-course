@@ -20,10 +20,14 @@ class CategoriesController < ApplicationController
 
   def show
     @search = TransactionSearch.new(params[:search])
-    @transactions = if @search.only_notes
-                      @search.scope_with_notes
+    @transactions = if params[:search].present?
+                      if @search.only_notes
+                        @search.scope_with_notes
+                      else
+                        @search.scope
+                      end
                     else
-                      @search.scope
+                      @category.transactions
                     end
   end
 

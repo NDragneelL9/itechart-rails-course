@@ -48,6 +48,7 @@
           <%= check_box_tag 'search[only_notes]', @search.only_notes, checked = false %>
           <span>Only with notes</span>
         </label>
+        <%= hidden_field_tag 'search[category_id]', @search.category_id, :value => @category.id %>
       </div>
     </div>
     <div class="form-actions center">
