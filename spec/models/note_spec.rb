@@ -12,11 +12,4 @@ RSpec.describe Note, type: :model do
       expect(subject).to be_valid
     end
   end
-
-  context 'Associations test' do
-    it 'should have transaction' do
-      subject.tranzaction = nil
-      expect(subject).to_not be_valid
-    end
-  end
 end
