@@ -8,22 +8,28 @@
       <%= render 'shared/error_messages', obj: @transaction %>
       <%= simple_form_for [@personality, @category, @transaction]  do |f| %>
         <div class="form-inputs row">
-          <div class="input-field col s6">
+          <div class="input-field col s4">
             <label>
               <%= f.check_box :withdrawal, id: "withdrawal" %>
-              <span>Withdrawal</span>
+              <span class="chck-box">Withdrawal</span>
             </label>
           </div>
-          <div class="input-field col s6">
+          <div class="input-field col s4">
             <%= f.number_field :amount_cents, min: 0.00, step: 0.01,
                 required: true, autofocus: true, placeholder: "5.55",
                 value: @transaction.amount_cents.to_f / 100 %>
             <%= f.label 'Amount', for: :amount_cents %>
           </div>
-          <br>
-          <%= link_to_add_row('Note', f, :notes,
+          <div class="input-field col s4">
+            <label>
+              <%= f.check_box :important, id: "imporant" %>
+              <span class="chck-box">Important</span>
+            </label>
+          </div>
+        </div>
+        <div class="form-inputs row">
+          <%= link_to_add_row('Add note', f, :notes,
               class: 'btn waves-effect white-text light-green darken-2') do %>
-             <i class="material-icons rigth">edit</i>
           <% end %>
           <div class="fields col s12 center">
             <%= f.fields_for :notes do |builder| %>

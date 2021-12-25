@@ -1,12 +1,13 @@
 class TransactionSearch
-  attr_reader :date_from, :date_to, :only_notes, :category_id
+  attr_reader :date_from, :date_to, :notes, :category_id, :important
 
   def initialize(params)
     params ||= {}
     time_now = Time.zone.now
-    @date_from = parsed_date(params[:date_from], time_now.last_month.to_date.to_s)
-    @date_to = parsed_date(params[:date_to], time_now.to_date.next_day.to_s)
-    @only_notes = params[:only_notes]
+    @date_from = parsed_date(params[:date_from], time_now.last_month.to_date)
+    @date_to = parsed_date(params[:date_to], time_now.to_date.next_day)
+    @notes = params[:notes]
+    @important = params[:important]
     @category_id = (params[:category_id]).to_i
   end
 
@@ -16,9 +17,21 @@ class TransactionSearch
                                  @date_from, @date_to)
   end
 
-  def scope_with_notes
+  def scope_notes
     set_category
     @category.transactions.joins(:notes).distinct.where('transactions.created_at BETWEEN ? AND ?',
+                                                        @date_from, @date_to)
+  end
+
+  def scope_important
+    set_category
+    @category.transactions.where('created_at BETWEEN ? AND ? AND important = true',
+                                 @date_from, @date_to)
+  end
+
+  def scope_important_notes
+    set_category
+    @category.transactions.joins(:notes).distinct.where('transactions.created_at BETWEEN ? AND ? AND important = true',
                                                         @date_from, @date_to)
   end
 
@@ -27,7 +40,7 @@ class TransactionSearch
   def parsed_date(date_string, default)
     Date.parse(date_string)
   rescue ArgumentError, TypeError
-    default
+    Date.parse(default.to_s)
   end
 
   def set_category

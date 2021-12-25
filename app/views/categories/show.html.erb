@@ -35,8 +35,7 @@
   <%= form_for [@personality, @category], method: :get do |f| %>
     <div class="form-inputs row ">
       <div class="input-field col s6 offset-s3">
-        <strong>You can choose date range
-        </strong>
+        <strong>Choose date range</strong>
         <p>Date from</p>
         <%= text_field_tag 'search[date_from]', @search.date_from, class: "" %>
         <p>Date to</p>
@@ -44,11 +43,19 @@
       </div>
     <div class="form-inputs row ">
       <div class="input-field col s6 offset-s3">
-        <label class="m2">
-          <%= check_box_tag 'search[only_notes]', @search.only_notes, checked = false %>
-          <span>Only with notes</span>
-        </label>
+        <div>
+          <label>
+            <%= check_box_tag 'search[notes]', @search.notes, checked = false %>
+            <span class="chck-box">Show with notes</span>
+          </label>
+        </div>
         <%= hidden_field_tag 'search[category_id]', @search.category_id, :value => @category.id %>
+        <div>
+          <label>
+            <%= check_box_tag 'search[important]', @search.important, checked = false %>
+            <span class="chck-box">Show important</span>
+          </label>
+        </div>
       </div>
     </div>
     <div class="form-actions center">

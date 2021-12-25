@@ -20,15 +20,7 @@ class CategoriesController < ApplicationController
 
   def show
     @search = TransactionSearch.new(params[:search])
-    @transactions = if params[:search].present?
-                      if @search.only_notes
-                        @search.scope_with_notes
-                      else
-                        @search.scope
-                      end
-                    else
-                      @category.transactions
-                    end
+    @transactions = search_transactions(@search)
   end
 
   def edit; end
@@ -66,5 +58,18 @@ class CategoriesController < ApplicationController
 
     # TODO: Add toasts that u cant perform actions with not yours categories
     redirect_to @personality
+  end
+
+  def search_transactions(search)
+    if params[:search].present?
+      if    search.important && search.notes;  search.scope_important_notes
+      elsif search.important;                  search.scope_important
+      elsif search.notes;                      search.scope_notes
+      else
+        search.scope
+      end
+    else
+      @category.transactions
+    end
   end
 end

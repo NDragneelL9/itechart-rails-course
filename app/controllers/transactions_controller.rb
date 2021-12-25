@@ -52,7 +52,7 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    params.require(:transaction).permit(:withdrawal, :amount_cents,
+    params.require(:transaction).permit(:withdrawal, :amount_cents, :important,
                                         notes_attributes: Note.attribute_names.map(&:to_sym).push(:_destroy))
   end
 
