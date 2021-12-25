@@ -110,3 +110,13 @@ textarea {
 ::placeholder {
   color: rgba(20, 51, 18, 0.493);
 }
+
+.important-transaction {
+  color: rgb(255, 0, 0);
+  font-size: 1.75em;
+  -webkit-text-stroke: 1px black;
+}
+
+.chck-box {
+  color: black;
+}

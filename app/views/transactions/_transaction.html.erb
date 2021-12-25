@@ -6,6 +6,11 @@
           <span class="card-title">
             Transaction info
           </span>
+          <p>
+            <% if transaction.important == true %>
+              <strong class="important-transaction">Important!</strong>
+            <% end %>
+          </p>
           <table class="centered blue-grey darken-2">
             <tbody>
             <% transaction.notes.each do |note| %>
