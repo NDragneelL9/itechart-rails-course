@@ -13,26 +13,22 @@ class TransactionSearch
 
   def scope
     set_category
-    @category.transactions.where('created_at BETWEEN ? AND ?',
-                                 @date_from, @date_to)
+    @category.transactions.where({ created_at: @date_from..@date_to })
   end
 
   def scope_notes
     set_category
-    @category.transactions.joins(:notes).distinct.where('transactions.created_at BETWEEN ? AND ?',
-                                                        @date_from, @date_to)
+    @category.transactions.joins(:notes).distinct.where({ created_at: @date_from..@date_to })
   end
 
   def scope_important
     set_category
-    @category.transactions.where('created_at BETWEEN ? AND ? AND important = true',
-                                 @date_from, @date_to)
+    @category.transactions.where({ created_at: @date_from..@date_to, important: true })
   end
 
   def scope_important_notes
     set_category
-    @category.transactions.joins(:notes).distinct.where('transactions.created_at BETWEEN ? AND ? AND important = true',
-                                                        @date_from, @date_to)
+    @category.transactions.joins(:notes).distinct.where({ created_at: @date_from..@date_to, important: true })
   end
 
   private
