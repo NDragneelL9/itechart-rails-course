@@ -13,13 +13,13 @@ RSpec.describe 'Categories', type: :request do
 
   describe 'GET routes tests for transactions' do
     it 'should show new template' do
-      get new_user_personality_category_transaction_path(personality, category)
+      get url_for([:new, personality, category, :transaction])
       expect(response.body).to include 'Create transaction'
       expect(response).to have_http_status(200)
     end
 
     it 'should show edit template' do
-      get edit_user_personality_category_transaction_path(personality, category, transaction)
+      get url_for([:edit, personality, category, transaction])
       expect(response.body).to include 'Update transaction'
       expect(response).to have_http_status(200)
     end
@@ -27,60 +27,42 @@ RSpec.describe 'Categories', type: :request do
 
   describe 'positive POST/PATCH/DELETE routes tests for transactions' do
     it 'should create transaction' do
-      amount_cents = 150
-      post user_personality_category_transactions_path(personality, category),
-           params: { transaction: { withdrawal: true, amount_cents: amount_cents } }
-      expect(Transaction.last.amount_cents).to eq(amount_cents)
+      amount_usd = 1.5
+      post url_for([personality, category, Transaction.new]),
+           params: { transaction: { withdrawal: true, amount_cents: amount_usd } }
+      expect(Transaction.last.amount_cents).to eq(amount_usd * 100)
       expect(response).to have_http_status(302)
     end
 
     it 'should update transaction' do
-      new_amount_cents = 400
-      patch user_personality_category_transaction_path(personality, category, transaction),
-            params: { transaction: { amount_cents: new_amount_cents } }
+      new_amount_usd = 4.00
+      patch url_for([personality, category, transaction]),
+            params: { transaction: { amount_cents: new_amount_usd } }
       transaction_new_amount_cents = Transaction.find(transaction.id).amount_cents
-      expect(transaction_new_amount_cents).to eq(new_amount_cents)
+      expect(transaction_new_amount_cents).to eq(new_amount_usd * 100)
       expect(response).to have_http_status(302)
     end
 
     it 'should delete transaction' do
-      delete user_personality_category_transaction_path(personality, category, transaction)
+      delete url_for([personality, category, transaction])
       expect(response).to have_http_status(302)
       expect { Transaction.find(transaction.id) }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
-  # rubocop:disable Metrics/BlockLength
   describe 'negative POST/PATCH/DELETE routes tests for transactions' do
-    # rubocop:enable Metrics/BlockLength
-    it 'should render new template if params werent correct' do
-      new_amount_cents = ''
-      post user_personality_category_transactions_path(personality, category),
-           params: { transaction: { withdrawal: true, amount_cents: new_amount_cents } }
-      expect(response.body).to include 'Create transaction'
-      expect(response).to have_http_status(200)
-    end
-
-    it 'should render edit template if params werent correct' do
-      new_amount_cents = ''
-      patch user_personality_category_transaction_path(personality, category, transaction),
-            params: { transaction: { amount_cents: new_amount_cents } }
-      expect(response.body).to include 'Update transaction'
-      expect(response).to have_http_status(200)
-    end
-
     it 'should restrict access to act with unfamiliar transactions' do
       category2 = FactoryGirl.create(:category)
       transactions2 = FactoryGirl.create(:transaction, category: category2)
-      get edit_user_personality_category_transaction_path(personality, category, transactions2)
+      get url_for([:edit, personality, category, transactions2])
       expect(response).to have_http_status(302)
     end
 
     it 'should handle record not found error' do
       fake_transaction_id = 0
-      new_amount_cents = 400
-      patch user_personality_category_transaction_path(personality, category, fake_transaction_id),
-            params: { transaction: { amount_cents: new_amount_cents } }
+      new_amount_usd = 4.00
+      patch url_for([personality, category, { transaction_id: fake_transaction_id }]),
+            params: { transaction: { amount_cents: new_amount_usd } }
       expect(response.body).to include "Something wen't wrong"
     end
   end

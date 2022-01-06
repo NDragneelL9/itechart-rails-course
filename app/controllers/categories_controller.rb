@@ -12,15 +12,15 @@ class CategoriesController < ApplicationController
     @category = Category.new(name: category_params[:name], user_personality: @personality)
     if @category.save
       # TODO: Add toasts success notifications
-      redirect_to user_personality_path(@personality)
+      redirect_to @personality
     else
       render 'new'
     end
   end
 
   def show
-    last_month = Time.zone.now.last_month
-    @transactions = @category.transactions.where('created_at > ? or updated_at > ?', last_month, last_month)
+    @search = TransactionSearch.new(params[:search])
+    @transactions = search_transactions(@search)
   end
 
   def edit; end
@@ -28,7 +28,7 @@ class CategoriesController < ApplicationController
   def update
     if @category.update(name: category_params[:name], user_personality: @personality)
       # TODO: Add toasts success notifications
-      redirect_to user_personality_path(@personality)
+      redirect_to @personality
     else
       render 'edit'
     end
@@ -36,7 +36,7 @@ class CategoriesController < ApplicationController
 
   def destroy
     @category.destroy
-    redirect_to user_personality_path(@personality)
+    redirect_to @personality
   end
 
   private
@@ -57,6 +57,19 @@ class CategoriesController < ApplicationController
     return unless @personality != @category.user_personality
 
     # TODO: Add toasts that u cant perform actions with not yours categories
-    redirect_to user_personality_path(@personality)
+    redirect_to @personality
+  end
+
+  def search_transactions(search)
+    if params[:search].present?
+      if    search.important && search.notes;  search.scope_important_notes
+      elsif search.important;                  search.scope_important
+      elsif search.notes;                      search.scope_notes
+      else
+        search.scope
+      end
+    else
+      @category.transactions
+    end
   end
 end

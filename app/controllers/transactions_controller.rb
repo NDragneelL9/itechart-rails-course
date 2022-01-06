@@ -6,15 +6,17 @@ class TransactionsController < ApplicationController
 
   def new
     @transaction = Transaction.new
+    @transaction.notes.build
   end
 
   def create
-    @transaction = Transaction.new(withdrawal: transaction_params[:withdrawal],
-                                   amount_cents: transaction_params[:amount_cents],
-                                   category_id: @category.id)
+    create_transaction_params = transaction_params
+    create_transaction_params[:amount_cents] = (transaction_params[:amount_cents].to_f * 100).to_i
+    @transaction = Transaction.new(create_transaction_params)
+    @category.transactions << @transaction
     if @transaction.save
       # TODO: Add toasts success notifications
-      redirect_to user_personality_category_path(@personality, @category)
+      redirect_to [@personality, @category]
     else
       render 'new'
     end
@@ -23,11 +25,11 @@ class TransactionsController < ApplicationController
   def edit; end
 
   def update
-    if @transaction.update(withdrawal: transaction_params[:withdrawal],
-                           amount_cents: transaction_params[:amount_cents],
-                           category_id: @category.id)
+    update_transaction_params = transaction_params
+    update_transaction_params[:amount_cents] = (transaction_params[:amount_cents].to_f * 100).to_i
+    if @transaction.update(update_transaction_params)
       # TODO: Add toasts success notifications
-      redirect_to user_personality_category_path(@personality, @category)
+      redirect_to [@personality, @category]
     else
       render 'edit'
     end
@@ -35,7 +37,7 @@ class TransactionsController < ApplicationController
 
   def destroy
     @transaction.destroy
-    redirect_to user_personality_category_path(@personality, @category)
+    redirect_to [@personality, @category]
   end
 
   private
@@ -50,13 +52,14 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    params.require(:transaction).permit(:withdrawal, :amount_cents)
+    params.require(:transaction).permit(:withdrawal, :amount_cents, :important,
+                                        notes_attributes: Note.attribute_names.map(&:to_sym).push(:_destroy))
   end
 
   def require_same_category
     return unless @category != @transaction.category
 
     # TODO: Add toasts that u cant perform actions with not yours transactions
-    redirect_to user_personality_category_path(@personality, @category)
+    redirect_to [@personality, @category]
   end
 end

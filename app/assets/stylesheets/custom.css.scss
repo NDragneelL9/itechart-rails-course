@@ -35,10 +35,17 @@ h5,
 h6 {
   font-weight: Bold;
   font-size: 30px;
-  color: black;
+  color: #FFFFFF;
 }
 
 /* custom css */
+body {
+  background-color: #C8B88A;
+}
+
+.card {
+  background-color: #cfd8dc;
+}
 
 .brand-logo {
   font-size: 3rem !important;
@@ -74,4 +81,42 @@ h6 {
   transform-origin: 0% 100%;
   text-align: initial;
   transform: translateY(12px);
+}
+
+.remove_record {
+  color: red;
+}
+
+textarea {
+  border: 1px solid black; 
+}
+
+/* label focus color */
+.input-field input:focus + label {
+  color: #689f38 !important;
+}
+
+/* label underline focus color */
+.row .input-field input:focus {
+  border-bottom: 1px solid #689f38 !important;
+  box-shadow: 0 1px 0 0 #689f38 !important
+}
+
+/* icon prefix focus color */
+.input-field .prefix.active {
+  color: #689f38;
+}
+
+::placeholder {
+  color: rgba(20, 51, 18, 0.493);
+}
+
+.important-transaction {
+  color: rgb(255, 0, 0);
+  font-size: 1.75em;
+  -webkit-text-stroke: 1px black;
+}
+
+.chck-box {
+  color: black;
 }

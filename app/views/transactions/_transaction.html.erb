@@ -6,8 +6,43 @@
           <span class="card-title">
             Transaction info
           </span>
+          <p>
+            <% if transaction.important == true %>
+              <strong class="important-transaction">Important!</strong>
+            <% end %>
+          </p>
+          <table class="centered blue-grey darken-2">
+            <tbody>
+            <% transaction.notes.each do |note| %>
+            <tr>
+              <td style="width: 80%">
+                <%= simple_format(truncate(note.description, length: 35)) %>
+              </td>
+              <td style="width: 10%">
+                <%= link_to [:edit, @personality, @category, transaction, note], 
+                    class: "waves-effect waves-light btn-small btn-floating light-green darken-2" do %>
+                <i class="material-icons">edit</i>
+                <% end %>
+              </td>
+              <td style="width: 10%">
+                <%= link_to [@personality, @category, transaction, note],
+                    class: "waves-effect waves-light btn-small btn-floating light-green darken-2", 
+                    method: :delete, 
+                    data: {confirm: "Are you sure?"} do %>
+                <i class="material-icons">delete</i>
+                <% end %>
+              </td>
+            </tr>
+            <% end %>
+            </tbody> 
+          </table>
+          <br>
+          <%= link_to [:new, @personality, @category, transaction, :note], 
+              class: "waves-effect waves-light btn-small btn-floating light-green darken-2" do %> 
+            <i class="material-icons">add</i>
+          <% end %>
             <% if transaction.withdrawal %>
-              <h1>-<%= '%.2f' %(transaction.amount_cents.to_f / 100) %>
+              <h1><%= '%.2f' %(-transaction.amount_cents.to_f / 100) %>
                    <%= transaction.amount_currency %>
               </h1>
             <% else %>
@@ -21,10 +56,11 @@
             </p>
         </div>
         <div class="card-action">
-          <%= link_to edit_user_personality_category_transaction_path(@personality, @category, transaction), class: "waves-effect waves-light btn light-green darken-2" do %>
+          <%= link_to [:edit, @personality, @category, transaction], 
+              class: "waves-effect waves-light btn light-green darken-2" do %>
             <i class="material-icons left">edit</i>Edit
           <% end %>
-          <%= link_to user_personality_category_transaction_path(@personality, @category, transaction), 
+          <%= link_to [@personality, @category, transaction], 
               class: "waves-effect waves-light btn light-green darken-2", 
               method: :delete, 
               data: {confirm: "Are you sure?"} do %>
