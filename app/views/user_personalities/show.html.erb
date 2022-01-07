@@ -22,9 +22,18 @@
       </div>
     </div>
   </div>
-   <%= link_to [:new, @personality, :category], 
-       class: "waves-effect waves-light btn light-green darken-2" do %>
-    <i class="material-icons left">add</i>Create category
-  <% end %>
+  <div>
+    <%= link_to [@personality, :graphics],
+        class: "waves-effect waves-light btn light-green darken-2" do %>
+      View graphics
+    <% end %>  
+  </div>
+  <br>
+  <div>
+    <%= link_to [:new, @personality, :category], 
+        class: "waves-effect waves-light btn light-green darken-2" do %>
+      <i class="material-icons left">add</i>Create category
+    <% end %>
+  </div>
   <%= render 'categories/category' %>
 </div>
