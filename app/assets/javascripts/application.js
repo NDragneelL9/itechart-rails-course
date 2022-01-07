@@ -16,6 +16,8 @@
 //= require turbolinks
 //= require activestorage
 //= require materialize-form
+//= require Chart.bundle
+//= require chartkick
 //= require_tree .
 
 $(document).on('nested:fieldAdded', function (event) {
