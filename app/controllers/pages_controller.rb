@@ -4,7 +4,7 @@ class PagesController < ApplicationController
 
   def graphics
     time_now = Time.zone.now
-    @date_from = time_now.last_month.to_date
+    @date_from = time_now.to_date.beginning_of_month
     @date_to = time_now.to_date.next_day
     transactions_date_range if params[:search].present?
     @personality = UserPersonality.find(params[:user_personality_id])
