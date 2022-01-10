@@ -15,7 +15,6 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.new(create_transaction_params)
     @category.transactions << @transaction
     if @transaction.save
-      # TODO: Add toasts success notifications
       redirect_to [@personality, @category]
     else
       render 'new'
@@ -28,7 +27,6 @@ class TransactionsController < ApplicationController
     update_transaction_params = transaction_params
     update_transaction_params[:amount_cents] = (transaction_params[:amount_cents].to_f * 100).to_i
     if @transaction.update(update_transaction_params)
-      # TODO: Add toasts success notifications
       redirect_to [@personality, @category]
     else
       render 'edit'
@@ -59,7 +57,6 @@ class TransactionsController < ApplicationController
   def require_same_category
     return unless @category != @transaction.category
 
-    # TODO: Add toasts that u cant perform actions with not yours transactions
     redirect_to [@personality, @category]
   end
 end
