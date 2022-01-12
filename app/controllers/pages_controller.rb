@@ -8,6 +8,8 @@ class PagesController < ApplicationController
     @date_to = time_now.to_date.next_day
     transactions_date_range if params[:search].present?
     @personality = UserPersonality.find(params[:user_personality_id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to user_personalities_path
   end
 
   private
