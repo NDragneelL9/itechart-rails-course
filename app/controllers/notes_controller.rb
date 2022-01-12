@@ -10,7 +10,6 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(description: note_params[:description], transaction_id: @transaction.id)
     if @note.save
-      # TODO: Add toasts success notifications
       redirect_to [@personality, @category]
     else
       render 'new'
@@ -21,7 +20,6 @@ class NotesController < ApplicationController
 
   def update
     if @note.update(description: note_params[:description], transaction_id: @transaction.id)
-      # TODO: Add toasts success notifications
       redirect_to [@personality, @category]
     else
       render 'edit'
@@ -48,7 +46,6 @@ class NotesController < ApplicationController
   def require_same_transaction
     return unless @transaction.id != @note.transaction_id
 
-    # TODO: Add toasts that u cant perform actions with not yours notes
     redirect_to [@personality, @category]
   end
 

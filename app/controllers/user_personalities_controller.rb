@@ -11,7 +11,6 @@ class UserPersonalitiesController < ApplicationController
     @personality = UserPersonality.new(personality_params)
     @personality.user_id = current_user.id
     if @personality.save
-      # TODO: Add toasts
       redirect_to @personality
     else
       render 'new'
@@ -30,7 +29,6 @@ class UserPersonalitiesController < ApplicationController
 
   def update
     if @personality.update(personality_params)
-      # TODO: Add toasts
       redirect_to @personality
     else
       render 'edit'
@@ -55,7 +53,6 @@ class UserPersonalitiesController < ApplicationController
   def require_same_user
     return unless current_user != @personality.user
 
-    # TODO: Add toasts
     redirect_to user_personalities_path
   end
 end

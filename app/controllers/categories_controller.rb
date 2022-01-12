@@ -11,7 +11,6 @@ class CategoriesController < ApplicationController
   def create
     @category = Category.new(name: category_params[:name], user_personality: @personality)
     if @category.save
-      # TODO: Add toasts success notifications
       redirect_to @personality
     else
       render 'new'
@@ -27,7 +26,6 @@ class CategoriesController < ApplicationController
 
   def update
     if @category.update(name: category_params[:name], user_personality: @personality)
-      # TODO: Add toasts success notifications
       redirect_to @personality
     else
       render 'edit'
@@ -56,7 +54,6 @@ class CategoriesController < ApplicationController
   def require_same_personality
     return unless @personality != @category.user_personality
 
-    # TODO: Add toasts that u cant perform actions with not yours categories
     redirect_to @personality
   end
 
